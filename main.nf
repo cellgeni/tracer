@@ -223,33 +223,22 @@ ch_fastqs_cram
 
 process assemble {
         tag "$samplename"
-        publishDir "${params.outdir}", mode: 'copy',
-            saveAs: { filename ->
-                if (filename ==~ /.*\.ReadsPerGene\.out\.tab/) "STARcounts/$filename"
-                else if (filename.indexOf(".bam") == -1) "STARlogs/$filename"
-                else params.saveAlignedIntermediates ? "STARbams/filename" : null
-            }
-
+        
         input:
         set val(samplename), file(reads) from ch_reads
-        file index from star_index.collect()
-        file gtf from gtf_star.collect()
 
         output:
-        set val(samplename), file("*Log.final.out"), file ('*.bam') into star_aligned
-        file "*.SJ.out.tab"
-        file "*.Log.out"
-        file "*.Log.final.out" into star_log
-        file "*.ReadsPerGene.out.tab"
+        //set val(samplename), file("*Log.final.out"), file ('*.bam') into star_aligned
 
         script:
                   // TODO featurecounts resorts the BAM file; SortedByName is not a STAR option though.
                   // --outSAMunmapped Within: In case someone wants the BAM files.
         """
 
-        f1=${samplename}_1.fastq.gz
-        f2=${samplename}_2.fastq.gz
-        tracer assemble $f1 $f2 random_cell_name
+        // f1=${samplename}_1.fastq.gz
+        // f2=${samplename}_2.fastq.gz
+        
+        tracer assemble $reads random_cell_name
 
         // STAR --genomeDir $index \\
         //     --sjdbGTFfile $gtf \\
