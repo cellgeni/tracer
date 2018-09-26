@@ -234,22 +234,6 @@ process assemble {
                   // TODO featurecounts resorts the BAM file; SortedByName is not a STAR option though.
                   // --outSAMunmapped Within: In case someone wants the BAM files.
         """
-
-        // f1=${samplename}_1.fastq.gz
-        // f2=${samplename}_2.fastq.gz
-        
         tracer assemble $reads random_cell_name
-
-        // STAR --genomeDir $index \\
-        //     --sjdbGTFfile $gtf \\
-        //     --readFilesIn $reads --readFilesCommand zcat \\
-        //     --runThreadN ${task.cpus} \\
-        //     --twopassMode Basic \\
-        //     --outWigType bedGraph \\
-        //     --outSAMtype BAM SortedByCoordinate \\
-        //     --outSAMunmapped Within \\
-        //     --runDirPerm All_RWX \\
-        //     --quantMode GeneCounts \\
-        //     --outFileNamePrefix ${samplename}.
         """
     }
